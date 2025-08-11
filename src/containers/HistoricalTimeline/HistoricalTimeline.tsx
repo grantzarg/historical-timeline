@@ -3,15 +3,19 @@ import CircularNavigation from './CircularNavigation/CircularNavigation';
 import EventsSlider from './EventsSlider/EventsSlider';
 import { useTimeline } from '@/hooks/useTimeline';
 import { TimelinePeriod } from '@/types/timeline';
-import { ARROW_WIDTH, ARROW_HEIGHT, STROKE_WIDTH, VIEWBOX } from '@/constants/slider';
+import Button from '@/components/Button/Button';
+import LeftArrow from '@/components/icons/LeftArrow';
+import RightArrow from '@/components/icons/RightArrow';
 import './HistoricalTimeline.scss';
 
 type Props = React.ComponentProps<'div'> & {
   periods: TimelinePeriod[];
 };
 
-const HistoricalTimeline: React.FC<Props> = (props) => {
-  const { periods, ...restProps } = props;
+const HistoricalTimeline: React.FC<Props> = ({ 
+  periods, 
+  ...restProps 
+}) => {
   const {
     activePeriod,
     activePeriodIndex,
@@ -43,27 +47,23 @@ const HistoricalTimeline: React.FC<Props> = (props) => {
               {String(currentPeriodNumber).padStart(2, '0')}/{String(totalPeriods).padStart(2, '0')}
           </div>
           <div className='historical-timeline__period-navigation-buttons-wrapper'>
-            <button
+            <Button
               className="historical-timeline__nav-btn historical-timeline__nav-btn--prev"
               onClick={prevPeriod}
               disabled={activePeriodIndex === 0}
               aria-label="Предыдущий период"
-            >
-              <svg width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} fill="none">
-                <path d="M7 1L2 6L7 11" stroke="currentColor" strokeWidth={STROKE_WIDTH}/>
-              </svg>
-            </button>
+              variant="nav"
+              icon={<LeftArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />}
+            />
             
-            <button
+            <Button
               className="historical-timeline__nav-btn historical-timeline__nav-btn--next"
               onClick={nextPeriod}
               disabled={activePeriodIndex === totalPeriods - 1}
               aria-label="Следующий период"
-            >
-              <svg width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} fill="none">
-                <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth={STROKE_WIDTH}/>
-              </svg>
-            </button>
+              variant="nav"
+              icon={<RightArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />}
+            />
           </div>
         </div>
 

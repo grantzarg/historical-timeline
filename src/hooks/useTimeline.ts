@@ -13,8 +13,8 @@ export const useTimeline = ({ periods }: UseTimelineProps) => {
 
   const { activePeriodIndex, activeSlideIndex } = state;
 
-  const updateState = (updates: Partial<typeof state>) => {
-    setState(prev => ({ ...prev, ...updates }));
+  const updateState = (newState: Partial<typeof state>) => {
+    setState(prevState => ({ ...prevState, ...newState }));
   };
 
   const activePeriod = periods[activePeriodIndex];

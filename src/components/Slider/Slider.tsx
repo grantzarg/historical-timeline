@@ -11,8 +11,12 @@ type Props = React.ComponentProps<typeof Swiper> & {
   key?: string | number;
 };
 
-const Slider = forwardRef<SwiperRef, Props>((props, ref) => {
-  const { children, className, key, ...swiperProps } = props;
+const Slider = forwardRef<SwiperRef, Props>(({ 
+  children, 
+  className, 
+  key, 
+  ...swiperProps 
+}, ref) => {
   return (
     <div className={`slider ${className}`}>
       <Swiper

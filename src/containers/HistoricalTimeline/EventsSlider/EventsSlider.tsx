@@ -7,12 +7,12 @@ import { Swiper as SwiperType } from 'swiper';
 import Button from '@/components/Button/Button';
 import LeftArrow from '@/components/icons/LeftArrow';
 import RightArrow from '@/components/icons/RightArrow';
-import { 
+import {
   INITIAL_PERIOD_KEY,
   PERIOD_KEY_INCREMENT,
   ANIMATION_START_DELAY,
   PERIOD_CHANGE_TIMEOUT,
-  RESIZE_DEBOUNCE,
+  RESIZE_DELAY,
   SLIDE_ANIMATION_DELAY,
   DESKTOP_SPACE_BETWEEN,
   DESKTOP_SLIDES_PER_VIEW,
@@ -26,10 +26,6 @@ import {
   TABLET_SPACE_BETWEEN,
   DESKTOP_SLIDES_PER_VIEW_LARGE,
   DESKTOP_SPACE_BETWEEN_LARGE,
-  ARROW_WIDTH,
-  ARROW_HEIGHT,
-  STROKE_WIDTH,
-  VIEWBOX
 } from '@/constants/slider';
 import './EventsSlider.scss';
 
@@ -52,20 +48,25 @@ type Props = {
 const DEFAULT_STATE: State = {
   canSlidePrev: false,
   canSlideNext: false,
-  animatingSlides: new Set<number>(),
+  animatingSlides: new Set(),
   isChangingPeriod: false,
   periodKey: INITIAL_PERIOD_KEY
 };
 
-const EventsSlider: React.FC<Props> = (props) => {
-  const { events, activeSlideIndex, onSlideChange, onNextSlide, onPrevSlide } = props;
+const EventsSlider: React.FC<Props> = ({ 
+  events, 
+  activeSlideIndex, 
+  onSlideChange, 
+  onNextSlide, 
+  onPrevSlide 
+}) => {
   const swiperRef = useRef<SwiperRef>(null);
   const [state, setState] = useState<State>(DEFAULT_STATE);
 
   const { canSlidePrev, canSlideNext, animatingSlides, isChangingPeriod, periodKey } = state;
 
-  const updateState = (updates: Partial<State>) => {
-    setState(prev => ({ ...prev, ...updates }));
+  const updateState = (newState: Partial<State>) => {
+    setState(prevState => ({ ...prevState, ...newState }));
   };
 
   useEffect(() => {
@@ -101,18 +102,22 @@ const EventsSlider: React.FC<Props> = (props) => {
   }, [events]);
 
   useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+    
     const handleResize = () => {
-      if (swiperRef.current?.swiper) {
-        setTimeout(() => {
-          if (swiperRef.current?.swiper) {
-            updateNavigationState(swiperRef.current.swiper);
-          }
-        }, RESIZE_DEBOUNCE);
-      }
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (swiperRef.current?.swiper) {
+          updateNavigationState(swiperRef.current.swiper);
+        }
+      }, RESIZE_DELAY);
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
   const handleSlideChange = (swiper: SwiperType) => {
@@ -148,24 +153,32 @@ const EventsSlider: React.FC<Props> = (props) => {
   return (
     <div className={`events-slider ${isChangingPeriod ? 'events-slider--changing' : ''}`}>
       <div className="events-slider__content">
-                {canSlidePrev && (
-          <Button
-            className="events-slider__nav-btn events-slider__nav-btn--prev"
-            onClick={onPrevSlide}
-            aria-label="Предыдущий слайд"
-            variant="nav"
-            icon={<LeftArrow width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} strokeWidth={STROKE_WIDTH} />}
-          />
-        )}
-
-        {canSlideNext && (
-          <Button
-            className="events-slider__nav-btn events-slider__nav-btn--next"
-            onClick={onNextSlide}
-            aria-label="Следующий слайд"
-            variant="nav"
-            icon={<RightArrow width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} strokeWidth={STROKE_WIDTH} />}
-          />
+                {[
+          {
+            canShow: canSlidePrev,
+            onClick: onPrevSlide,
+            ariaLabel: 'Предыдущий слайд',
+            className: 'events-slider__nav-btn events-slider__nav-btn--prev',
+            icon: <LeftArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />
+          },
+          {
+            canShow: canSlideNext,
+            onClick: onNextSlide,
+            ariaLabel: 'Следующий слайд',
+            className: 'events-slider__nav-btn events-slider__nav-btn--next',
+            icon: <RightArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />
+          }
+        ].map(({ canShow, onClick, ariaLabel, className, icon }) => 
+          canShow && (
+            <Button
+              key={ariaLabel}
+              className={className}
+              onClick={onClick}
+              aria-label={ariaLabel}
+              variant="nav"
+              icon={icon}
+            />
+          )
         )}
         <Slider
           ref={swiperRef}

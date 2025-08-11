@@ -26,8 +26,14 @@ type Props = React.ComponentProps<'div'> & {
   endYear?: number;
 };
 
-const CircularNavigation: React.FC<Props> = (props) => {
-  const { periods, activeIndex, onPeriodChange, startYear, endYear, ...restProps } = props;
+const CircularNavigation: React.FC<Props> = ({ 
+  periods, 
+  activeIndex, 
+  onPeriodChange, 
+  startYear, 
+  endYear, 
+  ...restProps 
+}) => {
   const radius = CIRCLE_RADIUS;
   
   const targetAngle = HALF_CIRCLE_DEGREES / periods.length;
@@ -43,8 +49,8 @@ const CircularNavigation: React.FC<Props> = (props) => {
 
   const { currentRotation, displayStartYear, displayEndYear } = state;
 
-  const updateState = (updates: Partial<typeof state>) => {
-    setState(prev => ({ ...prev, ...updates }));
+  const updateState = (newState: Partial<typeof state>) => {
+    setState(prevState => ({ ...prevState, ...newState }));
   };
   const yearsRef = useRef<HTMLDivElement>(null);
 

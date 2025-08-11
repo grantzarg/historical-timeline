@@ -13,7 +13,7 @@ const RightArrow: React.FC<Props> = ({
   height = 12,
   viewBox = "0 0 12 12",
   strokeWidth = 2,
-  className = '',
+  className,
 }) => {
   return (
     <svg 

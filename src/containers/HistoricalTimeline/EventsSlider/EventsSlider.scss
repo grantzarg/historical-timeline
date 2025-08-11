@@ -31,6 +31,13 @@
     align-items: center;
     justify-content: center;
     color: var(--color-text-secondary);
+    
+    .button__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
     transition: all 0.3s ease;
     z-index: 20;
     box-shadow: 0 0 15px 0 rgba(56, 119, 238, 0.1);
@@ -60,7 +67,7 @@
     }
 
     svg {
-      width: 8px;
+      width: 12px;
       height: 12px;
     }
   }

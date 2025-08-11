@@ -7,8 +7,13 @@ type Props = React.ComponentProps<'button'> & {
   icon?: React.ReactNode;
 };
 
-const Button: React.FC<Props> = (props) => {
-  const { variant = 'primary', size = 'medium', className, icon, ...buttonProps } = props;
+const Button: React.FC<Props> = ({ 
+  variant = 'primary', 
+  size = 'medium', 
+  className, 
+  icon, 
+  ...buttonProps 
+}) => {
   
   const buttonClasses = [
     'button',
