@@ -6,16 +6,12 @@ import { TimelinePeriod } from '@/types/timeline';
 import { ARROW_WIDTH, ARROW_HEIGHT, STROKE_WIDTH, VIEWBOX } from '@/constants/slider';
 import './HistoricalTimeline.scss';
 
-type Props = Pick<
-  React.ComponentProps<'div'>,
-  'className'
-> & {
+type Props = React.ComponentProps<'div'> & {
   periods: TimelinePeriod[];
 };
 
-const HistoricalTimeline: React.FC<Props> = ({
-  periods,
-}) => {
+const HistoricalTimeline: React.FC<Props> = (props) => {
+  const { periods, ...restProps } = props;
   const {
     activePeriod,
     activePeriodIndex,
@@ -31,7 +27,7 @@ const HistoricalTimeline: React.FC<Props> = ({
   } = useTimeline({ periods });
 
   return (
-    <div className="historical-timeline">
+    <div className="historical-timeline" {...restProps}>
       <div className="historical-timeline__header">
         <div className="historical-timeline__title">
           <div className="historical-timeline__title-line" />

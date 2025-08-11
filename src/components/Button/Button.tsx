@@ -1,38 +1,29 @@
 import React from 'react';
 import './Button.scss';
 
-type Props = Pick<
-  React.ComponentProps<'button'>,
-  'children' | 'onClick' | 'disabled' | 'className' | 'aria-label'
-> & {
+type Props = React.ComponentProps<'button'> & {
   variant?: 'primary' | 'secondary' | 'nav';
   size?: 'small' | 'medium' | 'large';
+  icon?: React.ReactNode;
 };
 
-const Button: React.FC<Props> = ({
-  children,
-  onClick,
-  disabled,
-  variant,
-  size,
-  className,
-  'aria-label': ariaLabel,
-}) => {
+const Button: React.FC<Props> = (props) => {
+  const { variant = 'primary', size = 'medium', className, icon, ...buttonProps } = props;
+  
   const buttonClasses = [
     'button',
-    `button--${variant || 'primary'}`,
-    `button--${size || 'medium'}`,
+    `button--${variant}`,
+    `button--${size}`,
     className
   ].filter(Boolean).join(' ');
 
   return (
     <button
       className={buttonClasses}
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={ariaLabel}
+      {...buttonProps}
     >
-      {children}
+      {icon && <span className="button__icon">{icon}</span>}
+      {buttonProps.children}
     </button>
   );
 };

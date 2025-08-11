@@ -17,7 +17,3 @@ export const RADIANS_CONVERSION = Math.PI / 180;
 
 export const CATEGORY_OFFSET_X = 49;
 export const CATEGORY_OFFSET_Y = -10;
-
-export const EASING = {
-  CUBIC_BEZIER: 'cubic-bezier(0.4, 0, 0.2, 0.8)',
-} as const;

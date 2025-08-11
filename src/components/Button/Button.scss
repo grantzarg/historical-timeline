@@ -51,6 +51,11 @@
     color: var(--color-gray-600);
     border: 1px solid var(--color-gray-200);
     border-radius: 50%;
+    padding: 8px;
+    min-width: 40px;
+    min-height: 40px;
+    width: 40px;
+    height: 40px;
 
     &:hover:not(:disabled) {
       background: var(--color-gray-50);
@@ -59,6 +64,10 @@
 
     &:active:not(:disabled) {
       background: var(--color-gray-100);
+    }
+
+    .button__icon {
+      margin-right: 0;
     }
   }
 
@@ -69,14 +78,23 @@
   }
 
   &--medium {
-    padding: 12px 24px;
     font-size: 16px;
-    min-height: 44px;
+    min-height: 40px;
   }
 
   &--large {
-    padding: 16px 32px;
     font-size: 18px;
-    min-height: 56px;
+    min-height: 50px;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }

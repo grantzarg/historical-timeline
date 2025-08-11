@@ -4,6 +4,9 @@ import { SwiperSlide } from 'swiper/react';
 import { Event } from '@/types/timeline';
 import { SwiperRef } from '@/types/swiper';
 import { Swiper as SwiperType } from 'swiper';
+import Button from '@/components/Button/Button';
+import LeftArrow from '@/components/icons/LeftArrow';
+import RightArrow from '@/components/icons/RightArrow';
 import { 
   INITIAL_PERIOD_KEY,
   PERIOD_KEY_INCREMENT,
@@ -30,10 +33,15 @@ import {
 } from '@/constants/slider';
 import './EventsSlider.scss';
 
-type Props = Pick<
-  React.ComponentProps<'div'>,
-  'className'
-> & {
+type State = {
+  canSlidePrev: boolean;
+  canSlideNext: boolean;
+  animatingSlides: Set<number>;
+  isChangingPeriod: boolean;
+  periodKey: number;
+};
+
+type Props = {
   events: Event[];
   activeSlideIndex: number;
   onSlideChange: (index: number) => void;
@@ -41,25 +49,22 @@ type Props = Pick<
   onPrevSlide: () => void;
 };
 
-const EventsSlider: React.FC<Props> = ({
-  events,
-  activeSlideIndex,
-  onSlideChange,
-  onNextSlide,
-  onPrevSlide,
-}) => {
+const DEFAULT_STATE: State = {
+  canSlidePrev: false,
+  canSlideNext: false,
+  animatingSlides: new Set<number>(),
+  isChangingPeriod: false,
+  periodKey: INITIAL_PERIOD_KEY
+};
+
+const EventsSlider: React.FC<Props> = (props) => {
+  const { events, activeSlideIndex, onSlideChange, onNextSlide, onPrevSlide } = props;
   const swiperRef = useRef<SwiperRef>(null);
-  const [state, setState] = useState({
-    canSlidePrev: false,
-    canSlideNext: false,
-    animatingSlides: new Set<number>(),
-    isChangingPeriod: false,
-    periodKey: INITIAL_PERIOD_KEY
-  });
+  const [state, setState] = useState<State>(DEFAULT_STATE);
 
   const { canSlidePrev, canSlideNext, animatingSlides, isChangingPeriod, periodKey } = state;
 
-  const updateState = (updates: Partial<typeof state>) => {
+  const updateState = (updates: Partial<State>) => {
     setState(prev => ({ ...prev, ...updates }));
   };
 
@@ -143,28 +148,24 @@ const EventsSlider: React.FC<Props> = ({
   return (
     <div className={`events-slider ${isChangingPeriod ? 'events-slider--changing' : ''}`}>
       <div className="events-slider__content">
-        {canSlidePrev && (
-          <button
+                {canSlidePrev && (
+          <Button
             className="events-slider__nav-btn events-slider__nav-btn--prev"
             onClick={onPrevSlide}
             aria-label="Предыдущий слайд"
-          >
-            <svg width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} fill="none">
-              <path d="M7 1L2 6L7 11" stroke="currentColor" strokeWidth={STROKE_WIDTH}/>
-            </svg>
-          </button>
+            variant="nav"
+            icon={<LeftArrow width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} strokeWidth={STROKE_WIDTH} />}
+          />
         )}
 
         {canSlideNext && (
-          <button
+          <Button
             className="events-slider__nav-btn events-slider__nav-btn--next"
             onClick={onNextSlide}
             aria-label="Следующий слайд"
-          >
-            <svg width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} fill="none">
-              <path d="M1 1L6 6L1 11" stroke="currentColor" strokeWidth={STROKE_WIDTH}/>
-            </svg>
-          </button>
+            variant="nav"
+            icon={<RightArrow width={ARROW_WIDTH} height={ARROW_HEIGHT} viewBox={VIEWBOX} strokeWidth={STROKE_WIDTH} />}
+          />
         )}
         <Slider
           ref={swiperRef}
@@ -172,7 +173,7 @@ const EventsSlider: React.FC<Props> = ({
           spaceBetween={DESKTOP_SPACE_BETWEEN}
           slidesPerView={DESKTOP_SLIDES_PER_VIEW}
           slidesPerGroup={SLIDES_PER_GROUP}
-          onSwiperInit={handleSwiperInit}
+          onSwiper={handleSwiperInit}
           onSlideChange={handleSlideChange}
           className="events-slider__swiper"
           watchSlidesProgress={true}

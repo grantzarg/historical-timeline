@@ -14,15 +14,11 @@ import {
   YEAR_ANIMATION_STEPS,
   RADIANS_CONVERSION,
   CATEGORY_OFFSET_X,
-  CATEGORY_OFFSET_Y,
-  EASING
+  CATEGORY_OFFSET_Y
 } from '@/constants/navigation';
 import './CircularNavigation.scss';
 
-type Props = Pick<
-  React.ComponentProps<'div'>,
-  'className'
-> & {
+type Props = React.ComponentProps<'div'> & {
   periods: TimelinePeriod[];
   activeIndex: number;
   onPeriodChange: (index: number) => void;
@@ -30,13 +26,8 @@ type Props = Pick<
   endYear?: number;
 };
 
-const CircularNavigation: React.FC<Props> = ({
-  periods,
-  activeIndex,
-  onPeriodChange,
-  startYear,
-  endYear,
-}) => {
+const CircularNavigation: React.FC<Props> = (props) => {
+  const { periods, activeIndex, onPeriodChange, startYear, endYear, ...restProps } = props;
   const radius = CIRCLE_RADIUS;
   
   const targetAngle = HALF_CIRCLE_DEGREES / periods.length;
@@ -73,7 +64,7 @@ const CircularNavigation: React.FC<Props> = ({
       
       gsap.to({}, {
         duration: ANIMATION_DURATION,
-        ease: EASING.CUBIC_BEZIER,
+        ease: 'cubic-bezier(0.4, 0, 0.2, 0.8)',
         onUpdate: function() {
           const progress = this.progress();
           const currentRot = currentRotation + (diff * progress);
@@ -145,7 +136,7 @@ const CircularNavigation: React.FC<Props> = ({
   const categoryPosition = getCategoryPosition();
 
   return (
-    <div className="circular-navigation__wrapper">
+    <div className="circular-navigation__wrapper" {...restProps}>
       
       <div className="circular-navigation__circle"></div>
       
