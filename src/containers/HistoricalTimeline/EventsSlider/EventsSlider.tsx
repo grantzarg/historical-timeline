@@ -153,33 +153,33 @@ const EventsSlider: React.FC<Props> = ({
   return (
     <div className={`events-slider ${isChangingPeriod ? 'events-slider--changing' : ''}`}>
       <div className="events-slider__content">
-                {[
-          {
-            canShow: canSlidePrev,
-            onClick: onPrevSlide,
-            ariaLabel: 'Предыдущий слайд',
-            className: 'events-slider__nav-btn events-slider__nav-btn--prev',
-            icon: <LeftArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />
-          },
-          {
-            canShow: canSlideNext,
-            onClick: onNextSlide,
-            ariaLabel: 'Следующий слайд',
-            className: 'events-slider__nav-btn events-slider__nav-btn--next',
-            icon: <RightArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />
-          }
-        ].map(({ canShow, onClick, ariaLabel, className, icon }) => 
-          canShow && (
-            <Button
-              key={ariaLabel}
-              className={className}
-              onClick={onClick}
-              aria-label={ariaLabel}
-              variant="nav"
-              icon={icon}
-            />
-          )
-        )}
+                {([
+                  [
+                    canSlidePrev,
+                    onPrevSlide,
+                    'Предыдущий слайд',
+                    'events-slider__nav-btn--prev',
+                    LeftArrow
+                  ] as const,
+                  [
+                    canSlideNext,
+                    onNextSlide,
+                    'Следующий слайд',
+                    'events-slider__nav-btn--next',
+                    RightArrow
+                  ] as const
+                ] as const).map(([canShow, onClick, ariaLabel, className, Icon]) => 
+                  canShow && (
+                    <Button
+                      key={ariaLabel}
+                      className={`events-slider__nav-btn ${className}`}
+                      onClick={onClick}
+                      aria-label={ariaLabel}
+                      variant="nav"
+                      icon={<Icon />}
+                    />
+                  )
+                )}
         <Slider
           ref={swiperRef}
           key={`period-${periodKey}`}

@@ -5,11 +5,18 @@ interface UseTimelineProps {
   periods: TimelinePeriod[];
 }
 
+type State = {
+  activePeriodIndex: number;
+  activeSlideIndex: number;
+};
+
+const DEFAULT_STATE: State = {
+  activePeriodIndex: 0,
+  activeSlideIndex: 0
+};
+
 export const useTimeline = ({ periods }: UseTimelineProps) => {
-  const [state, setState] = useState({
-    activePeriodIndex: 0,
-    activeSlideIndex: 0
-  });
+  const [state, setState] = useState<State>(DEFAULT_STATE);
 
   const { activePeriodIndex, activeSlideIndex } = state;
 

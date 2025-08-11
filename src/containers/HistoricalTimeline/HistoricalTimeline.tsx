@@ -47,23 +47,33 @@ const HistoricalTimeline: React.FC<Props> = ({
               {String(currentPeriodNumber).padStart(2, '0')}/{String(totalPeriods).padStart(2, '0')}
           </div>
           <div className='historical-timeline__period-navigation-buttons-wrapper'>
-            <Button
-              className="historical-timeline__nav-btn historical-timeline__nav-btn--prev"
-              onClick={prevPeriod}
-              disabled={activePeriodIndex === 0}
-              aria-label="Предыдущий период"
-              variant="nav"
-              icon={<LeftArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />}
-            />
-            
-            <Button
-              className="historical-timeline__nav-btn historical-timeline__nav-btn--next"
-              onClick={nextPeriod}
-              disabled={activePeriodIndex === totalPeriods - 1}
-              aria-label="Следующий период"
-              variant="nav"
-              icon={<RightArrow width={12} height={12} viewBox="0 0 12 12" strokeWidth={2} />}
-            />
+            {([
+              [
+                activePeriodIndex > 0,
+                prevPeriod,
+                'Предыдущий период',
+                'historical-timeline__nav-btn--prev',
+                LeftArrow
+              ] as const,
+              [
+                activePeriodIndex < totalPeriods - 1,
+                nextPeriod,
+                'Следующий период',
+                'historical-timeline__nav-btn--next',
+                RightArrow
+              ] as const
+            ] as const).map(([canShow, onClick, ariaLabel, className, Icon]) => (
+              canShow && (
+                <Button
+                  key={ariaLabel}
+                  className={`historical-timeline__nav-btn ${className}`}
+                  onClick={onClick}
+                  aria-label={ariaLabel}
+                  variant="nav"
+                  icon={<Icon />}
+                />
+              )
+            ))}
           </div>
         </div>
 
