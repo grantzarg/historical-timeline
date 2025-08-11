@@ -1,29 +1,27 @@
 import React from 'react';
 import './Button.scss';
 
-interface ButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
+type Props = Pick<
+  React.ComponentProps<'button'>,
+  'children' | 'onClick' | 'disabled' | 'className' | 'aria-label'
+> & {
   variant?: 'primary' | 'secondary' | 'nav';
   size?: 'small' | 'medium' | 'large';
-  className?: string;
-  'aria-label'?: string;
-}
+};
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<Props> = ({
   children,
   onClick,
-  disabled = false,
-  variant = 'primary',
-  size = 'medium',
-  className = '',
+  disabled,
+  variant,
+  size,
+  className,
   'aria-label': ariaLabel,
 }) => {
   const buttonClasses = [
     'button',
-    `button--${variant}`,
-    `button--${size}`,
+    `button--${variant || 'primary'}`,
+    `button--${size || 'medium'}`,
     className
   ].filter(Boolean).join(' ');
 
@@ -38,3 +36,5 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
+
+export default Button;

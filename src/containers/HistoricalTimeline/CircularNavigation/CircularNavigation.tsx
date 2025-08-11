@@ -19,15 +19,18 @@ import {
 } from '@/constants/navigation';
 import './CircularNavigation.scss';
 
-interface CircularNavigationProps {
+type Props = Pick<
+  React.ComponentProps<'div'>,
+  'className'
+> & {
   periods: TimelinePeriod[];
   activeIndex: number;
   onPeriodChange: (index: number) => void;
   startYear?: number;
   endYear?: number;
-}
+};
 
-export const CircularNavigation: React.FC<CircularNavigationProps> = ({
+const CircularNavigation: React.FC<Props> = ({
   periods,
   activeIndex,
   onPeriodChange,
@@ -57,7 +60,6 @@ export const CircularNavigation: React.FC<CircularNavigationProps> = ({
   useEffect(() => {
     let diff = targetRotation - currentRotation;
     
-
     while (diff > HALF_CIRCLE_DEGREES) {
       diff -= FULL_CIRCLE_DEGREES;
     }
@@ -144,10 +146,9 @@ export const CircularNavigation: React.FC<CircularNavigationProps> = ({
 
   return (
     <div className="circular-navigation__wrapper">
-      {/* Окружность - отдельно, под годами */}
+      
       <div className="circular-navigation__circle"></div>
       
-      {/* Годы в центре круга */}
       {displayStartYear && displayEndYear && (
         <div className="circular-navigation__years" ref={yearsRef}>
           <span className="circular-navigation__year circular-navigation__year--start">
@@ -208,3 +209,5 @@ export const CircularNavigation: React.FC<CircularNavigationProps> = ({
     </div>
   );
 };
+
+export default CircularNavigation;

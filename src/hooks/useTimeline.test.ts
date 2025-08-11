@@ -3,24 +3,24 @@ import { useTimeline } from './useTimeline';
 
 const mockPeriods = [
   {
-    id: '1',
+    id: 1,
     category: 'Наука',
     categoryNumber: 1,
     startYear: 1900,
     endYear: 1950,
     events: [
-      { id: '1', year: 1905, description: 'Событие 1' },
-      { id: '2', year: 1910, description: 'Событие 2' },
+      { id: 1, year: 1905, title: 'Событие 1', description: 'Событие 1' },
+      { id: 2, year: 1910, title: 'Событие 2', description: 'Событие 2' },
     ],
   },
   {
-    id: '2',
+    id: 2,
     category: 'Технологии',
     categoryNumber: 2,
     startYear: 1950,
     endYear: 2000,
     events: [
-      { id: '3', year: 1960, description: 'Событие 3' },
+      { id: 3, year: 1960, title: 'Событие 3', description: 'Событие 3' },
     ],
   },
 ];

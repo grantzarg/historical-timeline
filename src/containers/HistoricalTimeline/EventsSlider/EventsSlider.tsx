@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Slider } from '@/components/Slider';
+import Slider from '@/components/Slider/Slider';
 import { SwiperSlide } from 'swiper/react';
 import { Event } from '@/types/timeline';
 import { SwiperRef } from '@/types/swiper';
@@ -30,15 +30,18 @@ import {
 } from '@/constants/slider';
 import './EventsSlider.scss';
 
-interface EventsSliderProps {
+type Props = Pick<
+  React.ComponentProps<'div'>,
+  'className'
+> & {
   events: Event[];
   activeSlideIndex: number;
   onSlideChange: (index: number) => void;
   onNextSlide: () => void;
   onPrevSlide: () => void;
-}
+};
 
-export const EventsSlider: React.FC<EventsSliderProps> = ({
+const EventsSlider: React.FC<Props> = ({
   events,
   activeSlideIndex,
   onSlideChange,
@@ -210,3 +213,5 @@ export const EventsSlider: React.FC<EventsSliderProps> = ({
     </div>
   );
 };
+
+export default EventsSlider;

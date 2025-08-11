@@ -1,16 +1,19 @@
 import React from 'react';
-import { CircularNavigation } from './CircularNavigation/CircularNavigation';
-import { EventsSlider } from './EventsSlider/EventsSlider';
+import CircularNavigation from './CircularNavigation/CircularNavigation';
+import EventsSlider from './EventsSlider/EventsSlider';
 import { useTimeline } from '@/hooks/useTimeline';
 import { TimelinePeriod } from '@/types/timeline';
 import { ARROW_WIDTH, ARROW_HEIGHT, STROKE_WIDTH, VIEWBOX } from '@/constants/slider';
 import './HistoricalTimeline.scss';
 
-interface HistoricalTimelineProps {
+type Props = Pick<
+  React.ComponentProps<'div'>,
+  'className'
+> & {
   periods: TimelinePeriod[];
-}
+};
 
-export const HistoricalTimeline: React.FC<HistoricalTimelineProps> = ({
+const HistoricalTimeline: React.FC<Props> = ({
   periods,
 }) => {
   const {
@@ -87,3 +90,5 @@ export const HistoricalTimeline: React.FC<HistoricalTimelineProps> = ({
     </div>
   );
 };
+
+export default HistoricalTimeline;

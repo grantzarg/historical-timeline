@@ -5,8 +5,10 @@ import { SwiperRef } from '@/types/swiper';
 import { Swiper as SwiperType } from 'swiper';
 import './Slider.scss';
 
-interface SliderProps {
-  children: React.ReactNode;
+type Props = Pick<
+  React.ComponentProps<'div'>,
+  'children' | 'className'
+> & {
   slidesPerView?: number | 'auto';
   spaceBetween?: number;
   slidesPerGroup?: number;
@@ -14,7 +16,6 @@ interface SliderProps {
   pagination?: boolean;
   onSlideChange?: (swiper: SwiperType) => void;
   onSwiperInit?: (swiper: SwiperType) => void;
-  className?: string;
   key?: string | number;
   breakpoints?: Record<number, {
     slidesPerView?: number;
@@ -23,18 +24,18 @@ interface SliderProps {
   }>;
   watchSlidesProgress?: boolean;
   watchOverflow?: boolean;
-}
+};
 
-export const Slider = forwardRef<SwiperRef, SliderProps>(({
+const Slider = forwardRef<SwiperRef, Props>(({
   children,
-  slidesPerView = 1,
-  spaceBetween = 0,
-  slidesPerGroup = 1,
-  navigation = false,
-  pagination = false,
+  slidesPerView,
+  spaceBetween,
+  slidesPerGroup,
+  navigation,
+  pagination,
   onSlideChange,
   onSwiperInit,
-  className = '',
+  className,
   key,
   breakpoints,
   watchSlidesProgress,
@@ -46,11 +47,11 @@ export const Slider = forwardRef<SwiperRef, SliderProps>(({
         ref={ref}
         key={`slider-${key}`}
         modules={[Navigation]}
-        spaceBetween={spaceBetween}
-        slidesPerView={slidesPerView}
-        slidesPerGroup={slidesPerGroup}
-        navigation={navigation}
-        pagination={pagination}
+        spaceBetween={spaceBetween || 0}
+        slidesPerView={slidesPerView || 1}
+        slidesPerGroup={slidesPerGroup || 1}
+        navigation={navigation || false}
+        pagination={pagination || false}
         onSlideChange={onSlideChange}
         onSwiper={onSwiperInit}
         className="slider__swiper"
@@ -65,3 +66,5 @@ export const Slider = forwardRef<SwiperRef, SliderProps>(({
 });
 
 Slider.displayName = 'Slider';
+
+export default Slider;
