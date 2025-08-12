@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Slider from '@/components/Slider/Slider';
+import Slider from '@/components/Slider';
 import { SwiperSlide } from 'swiper/react';
 import { Event } from '@/types/timeline';
 import { SwiperRef } from '@/types/swiper';
 import { Swiper as SwiperType } from 'swiper';
-import Button from '@/components/Button/Button';
+import Button from '@/components/Button';
 import LeftArrow from '@/components/icons/LeftArrow';
 import RightArrow from '@/components/icons/RightArrow';
 import {
@@ -27,7 +27,7 @@ import {
   DESKTOP_SLIDES_PER_VIEW_LARGE,
   DESKTOP_SPACE_BETWEEN_LARGE,
 } from '@/constants/slider';
-import './EventsSlider.scss';
+import './styles.scss';
 
 type State = {
   canSlidePrev: boolean;
@@ -125,6 +125,18 @@ const EventsSlider: React.FC<Props> = ({
     updateNavigationState(swiper);
   };
 
+  const handleSlideClick = (swiper: SwiperType, event: MouseEvent | TouchEvent | PointerEvent) => {
+    const target = event.target as HTMLElement;
+    const slideElement = target.closest('.swiper-slide') as HTMLElement;
+    
+    if (slideElement && slideElement.parentNode) {
+      const slideIndex = Array.from(slideElement.parentNode.children).indexOf(slideElement);
+      onSlideChange(slideIndex);
+      
+      updateNavigationState(swiper);
+    }
+  };
+
   const updateNavigationState = (swiper: SwiperType) => {
     updateState({ 
       canSlidePrev: !swiper.isBeginning,
@@ -188,6 +200,7 @@ const EventsSlider: React.FC<Props> = ({
           slidesPerGroup={SLIDES_PER_GROUP}
           onSwiper={handleSwiperInit}
           onSlideChange={handleSlideChange}
+          onClick={handleSlideClick}
           className="events-slider__swiper"
           watchSlidesProgress={true}
           watchOverflow={true}

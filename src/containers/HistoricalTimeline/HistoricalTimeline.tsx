@@ -1,12 +1,12 @@
 import React from 'react';
-import CircularNavigation from './CircularNavigation/CircularNavigation';
-import EventsSlider from './EventsSlider/EventsSlider';
+import CircularNavigation from './CircularNavigation';
+import EventsSlider from './EventsSlider';
 import { useTimeline } from '@/hooks/useTimeline';
 import { TimelinePeriod } from '@/types/timeline';
-import Button from '@/components/Button/Button';
+import Button from '@/components/Button';
 import LeftArrow from '@/components/icons/LeftArrow';
 import RightArrow from '@/components/icons/RightArrow';
-import './HistoricalTimeline.scss';
+import './styles.scss';
 
 type Props = React.ComponentProps<'div'> & {
   periods: TimelinePeriod[];

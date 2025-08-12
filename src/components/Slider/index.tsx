@@ -2,8 +2,7 @@ import React, { forwardRef } from 'react';
 import { Swiper } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { SwiperRef } from '@/types/swiper';
-import { Swiper as SwiperType } from 'swiper';
-import './Slider.scss';
+import './styles.scss';
 
 type Props = React.ComponentProps<typeof Swiper> & {
   children: React.ReactNode;

@@ -89,6 +89,14 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    @media (max-width: 768px) {
+      cursor: pointer;
+      
+      &:hover {
+        transform: translateY(0) scale(1.02);
+      }
+    }
 
     @media (max-width: 1200px) {
       padding: 0 20px 0 0;
@@ -151,6 +159,7 @@
     line-height: 1.5;
     color: var(--color-gray-600);
     flex-grow: 1;
+    max-width: 300px;
   }
 }
 

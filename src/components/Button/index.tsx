@@ -1,5 +1,5 @@
 import React from 'react';
-import './Button.scss';
+import './styles.scss';
 
 type Props = React.ComponentProps<'button'> & {
   variant?: 'primary' | 'secondary' | 'nav';

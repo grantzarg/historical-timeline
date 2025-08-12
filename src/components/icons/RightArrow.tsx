@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface Props {
+type Props = {
   width?: number;
   height?: number;
   viewBox?: string;
   strokeWidth?: number;
   className?: string;
-}
+};
 
 const RightArrow: React.FC<Props> = ({
   width = 12,

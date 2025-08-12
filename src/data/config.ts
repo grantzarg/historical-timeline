@@ -4,7 +4,7 @@ export const periods = [
       category: 'Наука',
       categoryNumber: 1,
       startYear: 2015,
-      endYear: 2042,
+      endYear: 2022,
       events: [
         {
           id: 1,

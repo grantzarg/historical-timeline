@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
 import { TimelinePeriod } from '@/types/timeline';
 
-interface UseTimelineProps {
+type Props = {
   periods: TimelinePeriod[];
-}
+};
 
 type State = {
   activePeriodIndex: number;
@@ -15,7 +15,7 @@ const DEFAULT_STATE: State = {
   activeSlideIndex: 0
 };
 
-export const useTimeline = ({ periods }: UseTimelineProps) => {
+export const useTimeline = ({ periods }: Props) => {
   const [state, setState] = useState<State>(DEFAULT_STATE);
 
   const { activePeriodIndex, activeSlideIndex } = state;

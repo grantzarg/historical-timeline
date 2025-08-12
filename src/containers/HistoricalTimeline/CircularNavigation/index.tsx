@@ -16,7 +16,7 @@ import {
   CATEGORY_OFFSET_X,
   CATEGORY_OFFSET_Y
 } from '@/constants/navigation';
-import './CircularNavigation.scss';
+import './styles.scss';
 
 type Props = React.ComponentProps<'div'> & {
   periods: TimelinePeriod[];

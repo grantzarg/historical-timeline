@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Slider from './Slider';
+import Slider from '.';
 
 jest.mock('swiper/react', () => ({
   Swiper: ({ children, className }: { children: React.ReactNode; className?: string }) => (
