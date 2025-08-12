@@ -197,6 +197,10 @@
   }
 }
 
+.historical-timeline__mobile-pagination {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .historical-timeline {
     padding: 20px;
@@ -244,7 +248,7 @@
 
   .historical-timeline__mobile-pagination {
     display: flex;
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
