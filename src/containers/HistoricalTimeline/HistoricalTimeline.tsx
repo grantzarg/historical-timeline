@@ -36,7 +36,7 @@ const HistoricalTimeline: React.FC<Props> = ({
         <div className="historical-timeline__title">
           <div className="historical-timeline__title-line" />
           <h1 className="historical-timeline__title-text">
-            Исторические даты
+            Исторические<br/>даты
           </h1>
         </div>
       </div>
@@ -92,6 +92,19 @@ const HistoricalTimeline: React.FC<Props> = ({
           onNextSlide={nextSlide}
           onPrevSlide={prevSlide}
         />
+
+        <div className="historical-timeline__mobile-pagination">
+          {periods.map((period, index) => (
+            <button
+              key={period.id}
+              className={`historical-timeline__mobile-pagination-dot ${
+                index === activePeriodIndex ? 'historical-timeline__mobile-pagination-dot--active' : ''
+              }`}
+              onClick={() => switchPeriod(index)}
+              aria-label={`Перейти к периоду ${period.category}`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
